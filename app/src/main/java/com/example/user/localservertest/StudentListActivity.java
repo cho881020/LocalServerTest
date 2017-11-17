@@ -2,7 +2,10 @@ package com.example.user.localservertest;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.user.localservertest.adapter.StudentAdapter;
 import com.example.user.localservertest.data.Lecture;
@@ -24,6 +27,7 @@ public class StudentListActivity extends BaseActivity {
     List<User> students = new ArrayList<>();
     StudentAdapter mAdapter;
 
+    Button findTeacherNameBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,28 @@ public class StudentListActivity extends BaseActivity {
     }
     @Override
     public void setupEvents() {
+
+        findTeacherNameBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ServerUtil.getTeacherByLectureId(mContext, mLecture.getId(), new ServerUtil.JsonResponseHandler() {
+                    @Override
+                    public void onResponse(JSONObject json) {
+
+                        try {
+                            User teacher = User.getUserFromJson(json.getJSONObject("teacher"));
+
+
+                            Toast.makeText(mContext, "담당 강사 : " + teacher.getName(), Toast.LENGTH_SHORT).show();
+                            
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+            }
+        });
 
     }
 
@@ -83,5 +109,6 @@ public class StudentListActivity extends BaseActivity {
     @Override
     public void bindViews() {
         studentListView = findViewById(R.id.studentListView);
+        findTeacherNameBtn = findViewById(R.id.findTeacherNameBtn);
     }
 }

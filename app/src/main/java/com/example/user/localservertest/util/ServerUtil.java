@@ -22,6 +22,45 @@ public class ServerUtil {
     }
 
 
+    public static void getTeacherByLectureId(final Context context, final int lectureId, final JsonResponseHandler handler) {
+        String url = BASE_URL+"get_teacher_by_lecture";
+        //		String registrationId = ContextUtil.getRegistrationId(context);
+
+        Map<String, String> data = new HashMap<String, String>();
+        data.put("lecture_id", lectureId+"");
+
+        AsyncHttpRequest.get(context, url,  data, true, new AsyncHttpRequest.HttpResponseHandler() {
+
+            @Override
+            public boolean onPrepare() {
+                return true;
+            }
+
+            @Override
+            public void onResponse(String response) {
+                System.out.println(response);
+                try {
+                    JSONObject json = new JSONObject(response);
+
+                    if (handler != null)
+                        handler.onResponse(json);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFinish() {
+
+            }
+
+            @Override
+            public void onCancelled() {
+
+            }
+
+        });
+    }
+
     public static void getStudentsById(final Context context, final int lectureId, final JsonResponseHandler handler) {
         String url = BASE_URL+"get_student_by_lecture_id";
         //		String registrationId = ContextUtil.getRegistrationId(context);
