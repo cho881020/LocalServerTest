@@ -11,6 +11,13 @@
     <ListView
         android:id="@+id/studentListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="0dp"
+        android:layout_weight="1"></ListView>
+
+    <Button
+        android:id="@+id/findTeacherNameBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="담당선생님 이름은?"/>
 
 </LinearLayout>
